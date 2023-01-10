@@ -2,13 +2,14 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const mongoose = require("mongoose");
+require("dotenv").config();
 
 const app = express();
 
 // Database connection
 try {
   mongoose.set('strictQuery', true);
-  mongoose.connect("mongodb://127.0.0.1:27017/MyHelthRole");
+  mongoose.connect(process.env.MONGO_URI);
   console.log("Database connected");
 } catch (error) {
   console.log(error);
