@@ -4,11 +4,14 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
+// require Routes
+const hospitalRoute = require("./routes/hospital");
+
 const app = express();
 
 // Database connection
 try {
-  mongoose.set('strictQuery', true);
+  mongoose.set("strictQuery", true);
   mongoose.connect(process.env.MONGO_URI);
   console.log("Database connected");
 } catch (error) {
@@ -21,6 +24,7 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
+app.use("/api", hospitalRoute);
 
 // Starting the server
 const PORT = process.env.PORT || 5000;
