@@ -4,7 +4,7 @@ const Hospital = require("../models/Hospitales");
 const createHospital = async (req, res) => {
   try {
     const { name, description, address, phone, email, clincs } = req.body;
-    const newHspital = new Hospital({
+    const newHospital = new Hospital({
       name,
       description,
       address,
@@ -12,14 +12,23 @@ const createHospital = async (req, res) => {
       email,
       clincs,
     });
-    await newHspital.save();
+    await newHospital.save();
     res.status(201).json({
       success: true,
-      message: "Hospital Created sucess",
-      hospital: newHspital,
+      message: "Hospital Created success",
+      hospital: newHospital,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message, error });
+    if (error.code == 11000) {
+      return res.status(400).json({
+        success: false,
+        message: "Hospital already exist Please contact Support",
+        key: "exist",
+      });
+    }
+    return res
+      .status(500)
+      .json({ success: false, message: error.message, error });
   }
 };
 
@@ -69,7 +78,7 @@ const updateHospital = async (req, res) => {
 const deleteHospital = async (req, res) => {
   try {
     const { id } = req.params;
-    await Hospital.findByIdAndUpdate(id, { isDeleted: true });
+    await Hospital.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
     res
       .status(200)
       .json({ success: true, message: "Hospital deleted successfuly" });

@@ -4,9 +4,6 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-// require Routes
-const hospitalRoute = require("./routes/hospital");
-
 const app = express();
 
 // Database connection
@@ -24,7 +21,8 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-app.use("/api", hospitalRoute);
+app.use("/api", require("./routes/hospital"));
+app.use("/api", require("./routes/clinic"));
 
 // Starting the server
 const PORT = process.env.PORT || 5000;
