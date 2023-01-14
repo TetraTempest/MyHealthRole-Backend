@@ -25,10 +25,19 @@ const createHospital = async (req, res) => {
         message: "Hospital already exist Please contact Support",
         key: "exist",
       });
+    } else if (error.errors.phone.name.includes("ValidatorError")) {
+      return res.status(400).json({
+        success: false,
+        message: "Phone number must be 10 digits",
+        key: "phoneNumberError",
+      });
+    } else {
+      return res.status(500).json({
+        success: false,
+        message: error.message,
+        error,
+      });
     }
-    return res
-      .status(500)
-      .json({ success: false, message: error.message, error });
   }
 };
 

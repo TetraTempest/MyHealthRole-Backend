@@ -17,11 +17,14 @@ const HospitalesSchema = new Schema(
     },
     phone: {
       type: String,
-      min: 10,
-      max: 10,
+      minlength: 9,
+      maxlength: 9,
+      trim: true,
     },
     email: {
       type: String,
+      lowercase: true,
+      trim: true,
     },
     clinics: [{ type: Schema.Types.ObjectId, ref: "Clinics" }],
     closed: {
