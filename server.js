@@ -3,6 +3,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 const mongoose = require("mongoose");
 require("dotenv").config();
+const { readdirSync } = require("fs");
 
 const app = express();
 
@@ -21,8 +22,7 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-app.use("/api", require("./routes/hospital"));
-app.use("/api", require("./routes/clinic"));
+readdirSync("./routes").map((r) => app.use("/api", require("./routes/" + r)));
 
 // Starting the server
 const PORT = process.env.PORT || 5000;

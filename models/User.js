@@ -9,8 +9,12 @@ const User = new Schema(
       required: true,
     },
     nationalNumber: {
-      type: Number,
+      type: String,
       required: true,
+      unique: true,
+      minlength: 10,
+      maxlength: 10,
+      trim: true,
     },
   },
   { timestamps: true }
