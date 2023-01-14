@@ -17,12 +17,18 @@ const HospitalesSchema = new Schema(
     },
     phone: {
       type: String,
+      min: 10,
+      max: 10,
     },
     email: {
       type: String,
     },
     clinics: [{ type: Schema.Types.ObjectId, ref: "Clinics" }],
     closed: {
+      type: Boolean,
+      default: false,
+    },
+    isDeleted: {
       type: Boolean,
       default: false,
     },
