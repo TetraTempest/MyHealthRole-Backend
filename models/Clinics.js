@@ -18,7 +18,12 @@ const Clinics = new Schema(
       required: true,
     },
     appointments: [{ type: Schema.Types.ObjectId, ref: "Appointments" }],
+    currentAppointments: { type: Schema.Types.ObjectId, ref: "CurrentAppointment" },
     isDeleted: {
+      type: Boolean,
+      default: false
+    },
+    closed: {
       type: Boolean,
       default: false
     }
