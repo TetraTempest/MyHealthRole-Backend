@@ -7,6 +7,7 @@ const Appointments = new Schema(
     number: { type: Number, required: true, default: 0 },
     isApproved: { type: Boolean, default: false },
     user: { type: Schema.Types.ObjectId, ref: "User" },
+    currentAppointment: [{ type: Schema.Types.ObjectId, ref: "CurrentAppointment" }],
   },
   { timestamps: true }
 );
