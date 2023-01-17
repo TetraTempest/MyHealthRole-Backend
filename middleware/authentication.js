@@ -12,7 +12,7 @@ const authentication = (req, res, next) => {
     if (token) {
         jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
             if (err) {
-                return status(401).json({
+                return res.status(401).json({
                     success: false,
                     message: "Invalid token",
                     err,

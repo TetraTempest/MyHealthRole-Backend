@@ -1,6 +1,8 @@
 const Hospital = require("../models/Hospitales");
+const PasswordReset = require("../models/PasswordReset");
 const nodemailer = require("nodemailer");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 // Create Hospital
 const createHospital = async (req, res) => {
@@ -100,75 +102,9 @@ const deleteHospital = async (req, res) => {
   }
 };
 
-const sendEmailUpdatePassword = async (req, res) => {
-  const { email } = req.body;
-
-  const hospital = await Hospital.findOne({ email: email, isDeleted: false });
-
-  if (!hospital) {
-    return res.status(400).json({
-      success: false,
-      message: "Invalid email",
-    });
-  } else {
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "tetratempest@gmail.com",
-        pass: process.env.MAIL_PASS,
-      },
-    });
-
-    const generateCode = Math.floor(Math.random() * 10000);
-    const mailOptions = {
-      from: "tetratempest@gmail.com",
-      to: email,
-      subject: "Password Reset",
-      text: `The code is ${generateCode}`,
-    };
-
-    await transporter.sendMail(mailOptions);
-
-    res.status(200).json({
-      success: true,
-      message: "Email sent",
-      code: generateCode,
-    });
-  }
-};
-
-const updatePassword = async (req, res) => {
-  const { email, password } = req.body;
-  const hospital = await Hospital.findOne({ email: email, isDeleted: false });
-
-  if (!hospital) {
-    return res.status(400).json({
-      success: false,
-      message: "Invalid email",
-    });
-  } else {
-    const hashPassword = await bcrypt.hash(password, 10);
-    await Hospital.findByIdAndUpdate(
-      hospital._id,
-      {
-        password: hashPassword,
-      },
-      { new: true }
-    );
-    res.status(200).json({
-      success: true,
-      message: "Password updated successfuly",
-    });
-  }
-};
-
-// Make a token for reset password must have 5m expiration time and the code must be 4 digits
-
 module.exports = {
   createHospital,
   getHospitals,
   deleteHospital,
   updateHospital,
-  sendEmailUpdatePassword,
-  updatePassword,
 };
