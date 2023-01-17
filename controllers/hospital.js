@@ -1,8 +1,4 @@
 const Hospital = require("../models/Hospitales");
-const PasswordReset = require("../models/PasswordReset");
-const nodemailer = require("nodemailer");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 
 // Create Hospital
 const createHospital = async (req, res) => {
