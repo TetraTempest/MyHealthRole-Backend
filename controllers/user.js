@@ -3,13 +3,14 @@ const User = require("../models/User");
 // create User
 const createUser = async (req, res) => {
   try {
-    const { name, nationalNumber } = req.body;
+    const { name, nationalNumber, hospital } = req.body;
 
     const checkNationalNumberValidate = nationalNumber.replace(/[^0-9]/g, "");
     if (checkNationalNumberValidate.length === 10) {
       const newUser = new User({
         name,
         nationalNumber: checkNationalNumberValidate,
+        hospital,
       });
       await newUser.save();
       return res.status(201).json({
@@ -125,9 +126,29 @@ const getUsers = async (req, res) => {
   }
 };
 
+const updateHospital = async (req, res) => {
+  try {
+    const { hospital } = req.body;
+    const { id } = req.params;
+
+    const updateUser = await User.findByIdAndUpdate(id, {
+      hospital,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "user Hospital updated successfuly",
+      updateUser,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 module.exports = {
   createUser,
   updateUser,
   deleteUser,
   getUsers,
+  updateHospital,
 };

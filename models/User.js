@@ -16,6 +16,7 @@ const User = new Schema(
       maxlength: 10,
       trim: true,
     },
+    hospital: { type: Schema.Types.ObjectId, ref: "Hospitales" },
   },
   { timestamps: true }
 );
