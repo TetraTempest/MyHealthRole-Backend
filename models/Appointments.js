@@ -8,6 +8,7 @@ const Appointments = new Schema(
     isApproved: { type: Boolean, default: false },
     user: { type: Schema.Types.ObjectId, ref: "User" },
     currentAppointment: [{ type: Schema.Types.ObjectId, ref: "CurrentAppointment" }],
+    isCanceled: {type: Boolean, default: false}
   },
   { timestamps: true }
 );
